@@ -1,0 +1,48 @@
+{
+  "name": "@useorgx/deepseek-harness-plugin",
+  "version": "0.1.0",
+  "description": "Private developer-preview OrgX bundle and Sovereign Execution peer for DeepSeek Harness.",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "bin": {
+    "orgx-deepseek-harness-peer": "lib/peer/cli.mjs"
+  },
+  "exports": {
+    ".": "./lib/peer/peer.mjs",
+    "./peer": "./lib/peer/peer.mjs",
+    "./driver": "./lib/peer/DeepSeekHarnessDriver.mjs",
+    "./credential-readiness": "./lib/peer/CredentialReadinessProbe.mjs",
+    "./durable-failure-driver": "./lib/peer/DurableFailureDriver.mjs",
+    "./receipt-outbox": "./lib/peer/ReceiptOutbox.mjs",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./model.patch.yml": "./model.patch.yml",
+    "./plugin.manifest.json": "./plugin.manifest.json"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "model.patch.yml",
+    "plugin.manifest.json",
+    "lib/peer/",
+    "README.md"
+  ],
+  "scripts": {
+    "check": "node scripts/validate.mjs && node --check lib/peer/*.mjs",
+    "test": "node --test test/*.node-test.mjs",
+    "validate": "npm run check && npm test",
+    "peer:start": "node lib/peer/cli.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-mcp-client": "0.1.0-rc.6",
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "@useorgx/orgx-gateway-sdk": "github:useorgx/orgx-gateway-sdk#49f3cad612954c448878dc62d0f9c6bc87fa0f79"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

@@ -1,0 +1,15 @@
+# OrgX MCP tools for DeepSeek Harness.
+#
+# The API key stays in the launch environment. Missing credentials or an
+# initial connection/tool-sync failure reject this bundle's activation.
+
+- insert:
+    - id: mcp-orgx
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: orgx
+        transport: streamable-http
+        url: !!js "process.env.ORGX_MCP_URL || 'https://mcp.useorgx.com/mcp'"
+        headers:
+          Authorization: !!js "(() => { const token = process.env.ORGX_MCP_ACCESS_TOKEN?.trim(); if (!token) throw new Error('ORGX_MCP_ACCESS_TOKEN is required for the OrgX MCP bundle'); return `Bearer ${token}` })()"
+        failOnStartupError: true

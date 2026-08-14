@@ -1,0 +1,8 @@
+# Optional DeepSeek model override used by DeepSeekHarnessDriver when
+# ORGX_DEEPSEEK_HARNESS_MODEL is set. The complete row config is restated
+# because DSH patch rows replace config values rather than deep-merging them.
+
+- id: agent-default-model
+  config:
+    provider: deepseek-official
+    model: !!js "process.env.ORGX_DEEPSEEK_HARNESS_MODEL?.trim() || (() => { throw new Error('ORGX_DEEPSEEK_HARNESS_MODEL is required when model.patch.yml is active') })()"

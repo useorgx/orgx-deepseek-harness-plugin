@@ -1,0 +1,9 @@
+{
+  "plugin_name": "@useorgx/deepseek-harness-plugin",
+  "version": "0.1.0",
+  "manifest_fingerprint": "",
+  "signature": "",
+  "capabilities": ["gateway:drive", "plugin:heartbeat"],
+  "driver_ids": ["deepseek_harness"],
+  "notes": "Developer preview. This private local package is unsigned and has not been published."
+}
