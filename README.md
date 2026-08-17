@@ -22,7 +22,7 @@ Then launch a task through the wizard so it can refresh the OAuth token before
 DSH starts:
 
 ```sh
-orgx-wizard deepseek "List the OrgX tools available in this workspace."
+npx @useorgx/wizard@latest deepseek "List the OrgX tools available in this workspace."
 ```
 
 The DSH bundle fails startup when its MCP connection or initial tool sync fails.
