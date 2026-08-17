@@ -4,28 +4,48 @@
 profile and can run a workspace-bound OrgX gateway peer through Harness
 headless mode.
 
-This package is a developer preview. It is private, unsigned, and not
-published. A local install proves only that the package is present; it does not
-prove gateway admission, a successful dispatch, deployment, or production use.
+This package is a developer preview. A package install proves only that the
+bundle is present; it does not prove OrgX authentication, gateway admission, a
+successful dispatch, deployment, or production use.
 
-## Install the local bundle
+## Install with the OrgX wizard
 
-DeepSeek Harness is pinned to `0.1.0-rc.6`. From this package directory, use
-Node `^22.19.0` or `>=24.0.0` and run exactly:
+The supported user flow is the OrgX wizard. It detects a compatible DeepSeek
+Harness installation, installs this package into the `headless` profile, and
+pairs OrgX in the browser:
+
+```sh
+npx @useorgx/wizard@latest setup
+```
+
+Then launch a task through the wizard so it can refresh the OAuth token before
+DSH starts:
+
+```sh
+orgx-wizard deepseek "List the OrgX tools available in this workspace."
+```
+
+The DSH bundle fails startup when its MCP connection or initial tool sync fails.
+Do not treat package presence as proof that the OrgX tool surface is
+authenticated.
+
+## Install the bundle directly
+
+DeepSeek Harness is pinned to `0.1.0-rc.6`. Advanced users can install the
+package directly with Node `^22.19.0` or `>=24.0.0`:
 
 ```sh
 npm install --global @deepseek-ai/dsh@0.1.0-rc.6
 export ORGX_MCP_ACCESS_TOKEN='your_orgx_oauth_access_token'
 export DEEPSEEK_API_KEY='your_deepseek_key'
-PACKAGE_TARBALL="$(npm pack --ignore-scripts)"
-dsh plugin --profile headless add "file:$PWD/$PACKAGE_TARBALL"
+dsh plugin --profile headless add @useorgx/deepseek-harness-plugin@0.1.0
 dsh --profile headless --dump-config
 dsh --profile headless "List the OrgX tools available in this workspace."
 ```
 
-Packing first is intentional. Harness installs the tarball and its pinned
-runtime dependencies into the profile; a bare local link does not provide that
-clean-install guarantee.
+For source development, run `npm pack --ignore-scripts` and install the
+resulting tarball with a `file:` URL. A bare local link does not provide the
+same clean-install guarantee.
 
 The package vendors the exact MIT-licensed OrgX gateway peer client from
 `@useorgx/orgx-gateway-sdk@0.1.0-alpha.9` commit

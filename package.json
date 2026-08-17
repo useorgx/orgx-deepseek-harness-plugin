@@ -1,7 +1,7 @@
 {
   "name": "@useorgx/deepseek-harness-plugin",
   "version": "0.1.0",
-  "description": "Private developer-preview OrgX bundle and Sovereign Execution peer for DeepSeek Harness.",
+  "description": "OrgX MCP tools, Work Ledger access, and a Sovereign Execution peer for DeepSeek Harness.",
   "keywords": [
     "dsh-plugin",
     "deepseek-harness",
@@ -11,13 +11,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hopeatina/orgx.git",
-    "directory": "orgx/packages/deepseek-harness-plugin"
+    "url": "git+https://github.com/useorgx/orgx-deepseek-harness-plugin.git"
   },
-  "homepage": "https://github.com/hopeatina/orgx/tree/main/orgx/packages/deepseek-harness-plugin#readme",
+  "homepage": "https://github.com/useorgx/orgx-deepseek-harness-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/useorgx/orgx-deepseek-harness-plugin/issues"
+  },
   "type": "module",
-  "private": true,
-  "license": "UNLICENSED",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
   "bin": {
     "orgx-deepseek-harness-peer": "lib/peer/cli.mjs"
   },
@@ -37,6 +42,7 @@
     "model.patch.yml",
     "plugin.manifest.json",
     "THIRD_PARTY_NOTICES.md",
+    "LICENSE",
     "lib/peer/",
     "README.md"
   ],
@@ -44,6 +50,7 @@
     "check": "node scripts/validate.mjs && node --check lib/peer/*.mjs",
     "test": "node --test test/*.node-test.mjs",
     "validate": "npm run check && npm test",
+    "prepublishOnly": "npm run validate",
     "peer:start": "node lib/peer/cli.mjs"
   },
   "dsh": {

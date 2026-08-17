@@ -27,7 +27,17 @@ check(
   'package name drifted'
 );
 check(packageManifest.version === '0.1.0', 'package version must remain 0.1.0');
-check(packageManifest.private === true, 'package must remain private');
+check(packageManifest.private === false, 'package must remain publicly publishable');
+check(
+  packageManifest.publishConfig?.access === 'public',
+  'package publish access must remain public'
+);
+check(packageManifest.license === 'MIT', 'package license must remain MIT');
+check(
+  packageManifest.repository?.url ===
+    'git+https://github.com/useorgx/orgx-deepseek-harness-plugin.git',
+  'package must point at the public plugin repository'
+);
 check(
   packageManifest.dsh?.bundle?.patch === './cordis.patch.yml',
   'dsh.bundle.patch must reference cordis.patch.yml'
@@ -49,6 +59,7 @@ check(
   packageManifest.files?.includes('THIRD_PARTY_NOTICES.md'),
   'package files must include third-party notices'
 );
+check(packageManifest.files?.includes('LICENSE'), 'package files must include the MIT license');
 check(
   packageManifest.scripts?.test === 'node --test test/*.node-test.mjs',
   'package tests must use the Node-only *.node-test.mjs suffix'
@@ -290,10 +301,11 @@ includesAll(
   readme,
   [
     '@deepseek-ai/dsh@0.1.0-rc.6',
-    'PACKAGE_TARBALL="$(npm pack --ignore-scripts)"',
-    'dsh plugin --profile headless add "file:$PWD/$PACKAGE_TARBALL"',
+    'npx @useorgx/wizard@latest setup',
+    'dsh plugin --profile headless add @useorgx/deepseek-harness-plugin@0.1.0',
+    'npm pack --ignore-scripts',
+    '`file:` URL',
     'developer preview',
-    'private, unsigned, and not',
     'tools only',
     'MCP Resources and Prompts',
     'ORGX_INSTALLATION_ID',
@@ -320,6 +332,13 @@ includesAll(
     'test/*.node-test.mjs',
   ],
   'README.md'
+);
+
+const license = await read('LICENSE');
+includesAll(
+  license,
+  ['MIT License', 'Copyright (c) 2026 OrgX', 'THE SOFTWARE IS PROVIDED "AS IS"'],
+  'LICENSE'
 );
 
 console.log(`deepseek-harness-plugin validation passed (${checks} checks)`);
