@@ -2,6 +2,19 @@
   "name": "@useorgx/deepseek-harness-plugin",
   "version": "0.1.0",
   "description": "Private developer-preview OrgX bundle and Sovereign Execution peer for DeepSeek Harness.",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "orgx",
+    "mcp",
+    "sovereign-execution"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hopeatina/orgx.git",
+    "directory": "orgx/packages/deepseek-harness-plugin"
+  },
+  "homepage": "https://github.com/hopeatina/orgx/tree/main/orgx/packages/deepseek-harness-plugin#readme",
   "type": "module",
   "private": true,
   "license": "UNLICENSED",
@@ -23,6 +36,7 @@
     "cordis.patch.yml",
     "model.patch.yml",
     "plugin.manifest.json",
+    "THIRD_PARTY_NOTICES.md",
     "lib/peer/",
     "README.md"
   ],
@@ -39,8 +53,7 @@
   },
   "dependencies": {
     "@deepseek-ai/dsh-mcp-client": "0.1.0-rc.6",
-    "@modelcontextprotocol/sdk": "1.29.0",
-    "@useorgx/orgx-gateway-sdk": "github:useorgx/orgx-gateway-sdk#49f3cad612954c448878dc62d0f9c6bc87fa0f79"
+    "@modelcontextprotocol/sdk": "1.29.0"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0"

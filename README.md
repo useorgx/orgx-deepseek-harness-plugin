@@ -27,6 +27,12 @@ Packing first is intentional. Harness installs the tarball and its pinned
 runtime dependencies into the profile; a bare local link does not provide that
 clean-install guarantee.
 
+The package vendors the exact MIT-licensed OrgX gateway peer client from
+`@useorgx/orgx-gateway-sdk@0.1.0-alpha.9` commit
+`49f3cad612954c448878dc62d0f9c6bc87fa0f79`. DSH blocks Git and other exotic
+subdependencies while installing plugins, so bundling that audited client is
+what keeps a fresh profile installable. See `THIRD_PARTY_NOTICES.md`.
+
 The bundle mounts one `@deepseek-ai/dsh-mcp-client` instance named `orgx`. It
 connects to `https://mcp.useorgx.com/mcp` over Streamable HTTP and sends
 `Authorization: Bearer $ORGX_MCP_ACCESS_TOKEN`. That value must be a

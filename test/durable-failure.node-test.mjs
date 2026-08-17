@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
 
-import { PeerClient } from '@useorgx/orgx-gateway-sdk';
+import { PeerClient } from '../lib/peer/vendor/OrgXGatewayPeerClient.mjs';
 
 import { DurableFailureDriver } from '../lib/peer/DurableFailureDriver.mjs';
 import {

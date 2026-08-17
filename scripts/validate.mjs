@@ -42,9 +42,12 @@ check(
   'MCP SDK must be pinned to 1.29.0'
 );
 check(
-  packageManifest.dependencies?.['@useorgx/orgx-gateway-sdk'] ===
-    'github:useorgx/orgx-gateway-sdk#49f3cad612954c448878dc62d0f9c6bc87fa0f79',
-  'OrgX gateway SDK commit pin drifted'
+  packageManifest.dependencies?.['@useorgx/orgx-gateway-sdk'] === undefined,
+  'OrgX gateway SDK must stay vendored so DSH can install with exotic subdependencies blocked'
+);
+check(
+  packageManifest.files?.includes('THIRD_PARTY_NOTICES.md'),
+  'package files must include third-party notices'
 );
 check(
   packageManifest.scripts?.test === 'node --test test/*.node-test.mjs',
@@ -217,7 +220,7 @@ const peer = await read('lib/peer/peer.mjs');
 includesAll(
   peer,
   [
-    "import('@useorgx/orgx-gateway-sdk')",
+    "import('./vendor/OrgXGatewayPeerClient.mjs')",
     '/api/v1/licenses/heartbeat',
     '/api/v1/gateway/heartbeat',
     "GATEWAY_PLUGIN_ID = 'orgx-deepseek-harness-plugin'",
@@ -235,6 +238,29 @@ includesAll(
     'requireHostAccessAcknowledgment',
   ],
   'peer.mjs'
+);
+const vendoredGatewaySdk = await read(
+  'lib/peer/vendor/OrgXGatewayPeerClient.mjs'
+);
+includesAll(
+  vendoredGatewaySdk,
+  [
+    '@useorgx/orgx-gateway-sdk 0.1.0-alpha.9',
+    '49f3cad612954c448878dc62d0f9c6bc87fa0f79',
+    'var PeerClient = class',
+  ],
+  'vendored OrgX gateway SDK'
+);
+const thirdPartyNotices = await read('THIRD_PARTY_NOTICES.md');
+includesAll(
+  thirdPartyNotices,
+  [
+    '@useorgx/orgx-gateway-sdk',
+    '49f3cad612954c448878dc62d0f9c6bc87fa0f79',
+    'MIT License',
+    'Copyright (c) 2026 OrgX',
+  ],
+  'THIRD_PARTY_NOTICES.md'
 );
 
 const cliBin = await read('lib/peer/cli.mjs');
