@@ -26,7 +26,10 @@ check(
   packageManifest.name === '@useorgx/deepseek-harness-plugin',
   'package name drifted'
 );
-check(packageManifest.version === '0.1.0', 'package version must remain 0.1.0');
+check(
+  /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(packageManifest.version),
+  'package version must be a stable SemVer release'
+);
 check(packageManifest.private === false, 'package must remain publicly publishable');
 check(
   packageManifest.publishConfig?.access === 'public',
@@ -302,7 +305,7 @@ includesAll(
   [
     '@deepseek-ai/dsh@0.1.0-rc.6',
     'npx @useorgx/wizard@latest setup',
-    'dsh plugin --profile headless add @useorgx/deepseek-harness-plugin@0.1.0',
+    `dsh plugin --profile headless add @useorgx/deepseek-harness-plugin@${packageManifest.version}`,
     'npm pack --ignore-scripts',
     '`file:` URL',
     'developer preview',

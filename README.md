@@ -38,7 +38,7 @@ package directly with Node `^22.19.0` or `>=24.0.0`:
 npm install --global @deepseek-ai/dsh@0.1.0-rc.6
 export ORGX_MCP_ACCESS_TOKEN='your_orgx_oauth_access_token'
 export DEEPSEEK_API_KEY='your_deepseek_key'
-dsh plugin --profile headless add @useorgx/deepseek-harness-plugin@0.1.0
+dsh plugin --profile headless add @useorgx/deepseek-harness-plugin@0.1.1
 dsh --profile headless --dump-config
 dsh --profile headless "List the OrgX tools available in this workspace."
 ```

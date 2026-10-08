@@ -1,6 +1,6 @@
 {
   "name": "@useorgx/deepseek-harness-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OrgX MCP tools, Work Ledger access, and a Sovereign Execution peer for DeepSeek Harness.",
   "keywords": [
     "dsh-plugin",
