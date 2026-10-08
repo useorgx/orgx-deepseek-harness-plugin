@@ -48,8 +48,8 @@ check(
   'DSH MCP client must be pinned to 0.1.0-rc.6'
 );
 check(
-  packageManifest.dependencies?.['@modelcontextprotocol/sdk'] === '1.29.0',
-  'MCP SDK must be pinned to 1.29.0'
+  packageManifest.dependencies?.['@modelcontextprotocol/sdk'] === '1.31.0',
+  'MCP SDK must be pinned to the patched 1.31.0 release'
 );
 check(
   packageManifest.dependencies?.['@useorgx/orgx-gateway-sdk'] === undefined,
