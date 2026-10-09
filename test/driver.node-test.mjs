@@ -107,14 +107,6 @@ async function collect(iterable) {
   return messages;
 }
 
-async function waitFor(predicate) {
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    if (predicate()) return;
-    await new Promise((resolvePromise) => setImmediate(resolvePromise));
-  }
-  throw new Error('condition was not reached');
-}
-
 describe('DeepSeekHarnessDriver', () => {
   it('requires explicit acknowledgement of Harness host access', () => {
     assert.throws(
@@ -465,7 +457,7 @@ describe('DeepSeekHarnessDriver', () => {
     assert.equal(driver.running.has('run-concurrent'), false);
   });
 
-  it('terminates a spawned child with SIGTERM and removes the active run', async () => {
+  it('terminates a spawned child with SIGTERM and removes the active run', { timeout: 2_000 }, async () => {
     const signals = [];
     const child = new EventEmitter();
     child.stdout = new PassThrough();
@@ -478,8 +470,10 @@ describe('DeepSeekHarnessDriver', () => {
       queueMicrotask(() => child.emit('close', null, signal));
       return true;
     };
+    let signalSpawned;
+    const spawned = new Promise((resolve) => { signalSpawned = resolve; });
     const driver = new DeepSeekHarnessDriver({
-      spawn: () => child,
+      spawn: () => { signalSpawned(); return child; },
       workspaceRoot: workspace,
       env: HOST_ACK,
     });
@@ -490,7 +484,8 @@ describe('DeepSeekHarnessDriver', () => {
       )
     );
 
-    await waitFor(() => driver.running.get('run-cancel')?.child === child);
+    await spawned;
+    assert.equal(driver.running.get('run-cancel')?.child, child);
     await driver.cancel('run-cancel');
     const messages = await result;
 

@@ -54,7 +54,7 @@ subdependencies while installing plugins, so bundling that audited client is
 what keeps a fresh profile installable. See `THIRD_PARTY_NOTICES.md`.
 
 The bundle mounts one `@deepseek-ai/dsh-mcp-client` instance named `orgx`. It
-connects to `https://mcp.useorgx.com/mcp` over Streamable HTTP and sends
+connects to `https://mcp.useorgx.com/mcp?profile=v2` over Streamable HTTP and sends
 `Authorization: Bearer $ORGX_MCP_ACCESS_TOKEN`. That value must be a
 client-managed OrgX OAuth 2.1 access token; the `oxk_` gateway key is not valid
 for hosted MCP. Set `ORGX_MCP_URL` to use another OrgX MCP endpoint. Startup
@@ -182,3 +182,11 @@ Validation checks the bundle and manifest, evidence-backed readiness,
 workspace and child-environment boundaries, cancellation and duplicate races,
 unmanaged protocol-v1 heartbeats, and the pinned SDK's disconnect-time HTTP
 failure recovery. It does not contact OrgX or DeepSeek.
+
+## MCP operation discovery
+
+The Harness synchronizes the current `tools/list` inventory before execution;
+it has no fixed hosted tool aliases or assumed response fields. Explicit
+`ORGX_MCP_URL` values are preserved. A failed
+write is not retried with another tool name. Portable work receipts retain their
+complete document; gateway terminal receipts use their separate run contract.

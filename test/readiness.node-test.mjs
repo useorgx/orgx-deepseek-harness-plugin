@@ -63,6 +63,7 @@ describe('credential readiness', () => {
       'Bearer mcp-oauth-token'
     );
     assert.equal(observed.listTools, 1);
+    assert.equal(observed.transport.url, 'https://mcp.useorgx.com/mcp?profile=v2');
     assert.equal(observed.closed, 1);
   });
 
